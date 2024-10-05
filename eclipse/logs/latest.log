@@ -1,0 +1,31 @@
+[05:14:55] [main/INFO]: Setting user: Player886
+[05:14:56] [Client thread/INFO]: LWJGL Version: 2.9.1
+[05:15:00] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Not Enough Items, FMLFileResourcePack:MineTweaker 3, FMLFileResourcePack:Village Names, FMLFileResourcePack:Kingdom | Regions, FMLFileResourcePack:Actually Additions
+[05:15:01] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[05:15:01] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[05:15:01] [Sound Library Loader/INFO]: Sound engine started
+[05:15:02] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Not Enough Items, FMLFileResourcePack:MineTweaker 3, FMLFileResourcePack:§6Village Names§r, FMLFileResourcePack:Kingdom | Regions, FMLFileResourcePack:Actually Additions
+[05:15:02] [Client thread/INFO]: Created: 512x512 textures/blocks-atlas
+[05:15:02] [Client thread/INFO]: Created: 512x256 textures/items-atlas
+[05:15:03] [Sound Library Loader/INFO]: Sound engine started
+[05:15:10] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[05:15:10] [Server thread/INFO]: Generating keypair
+[05:15:12] [Server thread/INFO]: Preparing start region for level 0
+[05:15:13] [Server thread/INFO]: Changing view distance to 12, from 10
+[05:15:13] [Server thread/INFO]: Player886[local:E:beb74a70] logged in with entity id 437 at (-211.44068276355273, 89.0, 464.4060026535588)
+[05:15:13] [Server thread/INFO]: Player886 joined the game
+[05:15:14] [Client thread/INFO]: [CHAT] Version 1.0.7.48 of CodeChickenCore is available
+[05:15:14] [Client thread/INFO]: [CHAT] Version 1.0.5.120 of NotEnoughItems is available
+[05:15:15] [Server thread/INFO]: Player886 has just earned the achievement [Taking Inventory]
+[05:15:15] [Client thread/INFO]: [CHAT] Player886 has just earned the achievement [Taking Inventory]
+[05:15:16] [Client thread/INFO]: [CHAT] §6Village Names§r version §e4.4.12§r is available! Get it at:
+[05:15:16] [Client thread/INFO]: [CHAT] https://modrinth.com/mod/village-names
+[05:18:09] [Client thread/INFO]: Stopping!
+[05:18:09] [Server thread/INFO]: Stopping server
+[05:18:09] [Server thread/INFO]: Saving players
+[05:18:09] [Server thread/INFO]: Saving worlds
+[05:18:09] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[05:18:09] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[05:18:09] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[05:18:09] [Client Shutdown Thread/INFO]: Stopping server
+[05:18:09] [Client Shutdown Thread/INFO]: Saving players
