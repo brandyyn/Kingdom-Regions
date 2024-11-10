@@ -47,7 +47,7 @@ public class ConfigurationMoD {
       textX = KingdomRegions.config.get(CATEGORY_3, "X offset of the text", 0).getInt();
       textY = KingdomRegions.config.get(CATEGORY_3, "Y offset of the text", 0).getInt();
       HTML_COLOR = KingdomRegions.config.get(CATEGORY_3, "Color code for the Display Text ", 16119039).getInt();
-      DisplayTime = KingdomRegions.config.get(CATEGORY_3, "the Time in Seconds which the Text is shown", 4).getInt() * 40;
+      DisplayTime = KingdomRegions.config.get(CATEGORY_3, "the Time in Seconds which the Text is shown", 4).getInt();
       ScaleSize = KingdomRegions.config.get(CATEGORY_3, "Scale the Text be Factor", 5).getDouble();
       valuesB = KingdomRegions.config.getStringList("BiomeBlackList", "Biome", new String[]{BiomeGenBase.getBiomeGenArray()[7].biomeName, BiomeGenBase.getBiomeGenArray()[11].biomeName, BiomeGenBase.getBiomeGenArray()[16].biomeName, BiomeGenBase.getBiomeGenArray()[3].biomeName, BiomeGenBase.getBiomeGenArray()[25].biomeName, BiomeGenBase.getBiomeGenArray()[26].biomeName}, "Blacklisted Strings");
       valuesW = KingdomRegions.config.getStringList("BiomeWhiteList", "Biome", new String[]{BiomeGenBase.getBiomeGenArray()[7].biomeName, BiomeGenBase.getBiomeGenArray()[11].biomeName, BiomeGenBase.getBiomeGenArray()[16].biomeName, BiomeGenBase.getBiomeGenArray()[3].biomeName, BiomeGenBase.getBiomeGenArray()[25].biomeName, BiomeGenBase.getBiomeGenArray()[26].biomeName}, "Whitlisted Strings (only if Enabled!)");

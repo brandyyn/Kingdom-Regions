@@ -3,6 +3,8 @@ package kamkeel.kingdomregions.client.gui;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import java.util.ArrayList;
+
+import cpw.mods.fml.common.gameevent.TickEvent;
 import kamkeel.kingdomregions.ConfigurationMoD;
 import kamkeel.kingdomregions.NBT.KingdomPlayer;
 import kamkeel.kingdomregions.Network.PacketDispatcher;
@@ -35,6 +37,7 @@ public class InterfaceGUI extends GuiScreen {
    public InterfaceGUI(Minecraft mc) {
       this.mc = mc;
    }
+
 
    @SubscribeEvent(
       priority = EventPriority.HIGHEST
@@ -134,8 +137,14 @@ public class InterfaceGUI extends GuiScreen {
       }
    }
 
+   @SubscribeEvent
+   public void onClientTick(TickEvent.ClientTickEvent event) {
+      if (DISPLAYSTRING.size() > 0) {
+         ++time;
+      }
+   }
+
    private boolean updateTime() {
-      ++time;
       if (time >= maxtime) {
          f1 = 0;
          time = 0;
@@ -162,7 +171,7 @@ public class InterfaceGUI extends GuiScreen {
    }
 
    static {
-      maxtime = ConfigurationMoD.DisplayTime;
+      maxtime = ConfigurationMoD.DisplayTime * 20;
       playtime = 200;
       SCALE = ConfigurationMoD.ScaleSize;
    }

@@ -72,7 +72,9 @@ public class KingdomRegions {
    @EventHandler
    public void postInit(FMLPostInitializationEvent postEvent) {
       if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-         MinecraftForge.EVENT_BUS.register(new InterfaceGUI(Minecraft.getMinecraft()));
+         InterfaceGUI event = new InterfaceGUI(Minecraft.getMinecraft());
+         MinecraftForge.EVENT_BUS.register(event);
+         FMLCommonHandler.instance().bus().register(event);
       }
 
    }
