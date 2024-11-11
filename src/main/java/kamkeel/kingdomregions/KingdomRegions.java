@@ -24,8 +24,8 @@ import net.minecraftforge.common.config.Configuration;
 )
 public class KingdomRegions {
    public static final String MODID = "kingdomregions";
-   public static final String NAME = "Kingdom | Regions";
-   public static final String VERSION = "5.0";
+   public static final String NAME = "Regions";
+   public static final String VERSION = "5.9";
    public static ModInteropProxy modInterop;
    public static KingdomRegions instance;
    public static Configuration config;

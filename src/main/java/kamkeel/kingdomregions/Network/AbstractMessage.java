@@ -47,8 +47,6 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
          msg.process(KingdomRegions.proxy.getPlayerEntity(ctx), ctx.side);
       } else if (ctx.side == Side.SERVER) {
       }
-
-      msg.process(KingdomRegions.proxy.getPlayerEntity(ctx), ctx.side);
       return null;
    }
 
