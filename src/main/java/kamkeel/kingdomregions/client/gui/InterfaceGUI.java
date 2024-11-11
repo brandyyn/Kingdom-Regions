@@ -107,35 +107,45 @@ public class InterfaceGUI extends GuiScreen {
    }
 
    private void updateBiome(EntityPlayer player) {
-      String str = player.worldObj.getBiomeGenForCoords((int)player.posX, (int)player.posZ).biomeName;
+      String str = player.worldObj.getBiomeGenForCoords((int) player.posX, (int) player.posZ).biomeName;
+
+      // Check if the biome is already discovered
       if (!KingdomPlayer.get(player).DiscoverdBiomeList.contains(str)) {
          boolean tempb = true;
 
-         int i;
-         for(i = 0; i < ConfigurationMoD.valuesB.length; ++i) {
-            if (ConfigurationMoD.valuesB[i].equals(str)) {
-               tempb = false;
-            }
-         }
-
-         if (ConfigurationMoD.useWhitelist) {
-            for(i = 0; i < ConfigurationMoD.valuesW.length; ++i) {
+         // Blacklist Check (skip if the blacklist is null or empty)
+         if (ConfigurationMoD.valuesB != null && ConfigurationMoD.valuesB.length > 0) {
+            for (int i = 0; i < ConfigurationMoD.valuesB.length; ++i) {
                if (ConfigurationMoD.valuesB[i].equals(str)) {
-                  tempb = true;
+                  tempb = false;
                }
             }
          }
 
+         // Whitelist Check (only if enabled and whitelist is not null or empty)
+         if (ConfigurationMoD.useWhitelist && ConfigurationMoD.valuesW != null && ConfigurationMoD.valuesW.length > 0) {
+            tempb = false; // Default to false, allow only if matched in whitelist
+            for (int i = 0; i < ConfigurationMoD.valuesW.length; ++i) {
+               if (ConfigurationMoD.valuesW[i].equals(str)) {
+                  tempb = true;
+                  break;
+               }
+            }
+         }
+
+         // Add the biome to DISPLAYSTRING if valid and not recently displayed
          if (tempb && !BIOMEOLD.equals(str)) {
             DISPLAYSTRING.add(str);
             BIOMEOLD = str;
+
+            // Notify server if redisplaying is disabled
             if (!ConfigurationMoD.displayerBiomeAgain) {
                PacketDispatcher.sendToServer(new sendTextpopRegions(str));
             }
          }
-
       }
    }
+
 
    @SubscribeEvent
    public void onClientTick(TickEvent.ClientTickEvent event) {
