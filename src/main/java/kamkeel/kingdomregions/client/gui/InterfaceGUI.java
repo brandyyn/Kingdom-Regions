@@ -113,39 +113,49 @@ public class InterfaceGUI extends GuiScreen {
       // Get the renamed biome name for display purposes
       String displayName = ConfigurationMoD.getRenamedBiome(originalBiomeName);
 
-      // Original logic for discovery and blacklist/whitelist handling
-      if (!KingdomPlayer.get(player).DiscoverdBiomeList.contains(originalBiomeName)) {
-         boolean tempb = true;
+      // Check if the biome has changed
+      if (!BIOMEOLD.equals(originalBiomeName)) {
+         boolean isValidBiome = true; // Assume valid unless blacklisted or fails whitelist
 
-         // Blacklist Check
+         // Check blacklist
          if (ConfigurationMoD.valuesB != null && ConfigurationMoD.valuesB.length > 0) {
             for (String blacklisted : ConfigurationMoD.valuesB) {
                if (blacklisted.equals(originalBiomeName)) {
-                  tempb = false;
+                  isValidBiome = false; // Mark invalid if blacklisted
                   break;
                }
             }
          }
 
-         // Whitelist Check (only if enabled)
+         // Check whitelist
          if (ConfigurationMoD.useWhitelist && ConfigurationMoD.valuesW != null && ConfigurationMoD.valuesW.length > 0) {
-            tempb = false;
+            isValidBiome = false; // Default to false, allow only if matched in whitelist
             for (String whitelisted : ConfigurationMoD.valuesW) {
                if (whitelisted.equals(originalBiomeName)) {
-                  tempb = true;
+                  isValidBiome = true;
                   break;
                }
             }
          }
 
-         // Add to DISPLAYSTRING if valid
-         if (tempb && !BIOMEOLD.equals(originalBiomeName)) {
-            DISPLAYSTRING.add(displayName); // Use renamed biome name for display
-            BIOMEOLD = originalBiomeName;
-
-            // Notify server if redisplaying is disabled
-            if (!ConfigurationMoD.displayerBiomeAgain) {
+         // Handle entering a valid biome
+         if (isValidBiome) {
+            if (!KingdomPlayer.get(player).DiscoverdBiomeList.contains(originalBiomeName)) {
+               // Add to DiscoverdBiomeList and display for new biomes
+               KingdomPlayer.get(player).DiscoverdBiomeList.add(originalBiomeName);
+               DISPLAYSTRING.add(displayName);
                PacketDispatcher.sendToServer(new sendTextpopRegions(displayName));
+            } else if (ConfigurationMoD.displayerBiomeAgain) {
+               // Redisplay for valid biomes if redisplay is enabled
+               DISPLAYSTRING.add(displayName);
+               PacketDispatcher.sendToServer(new sendTextpopRegions(displayName));
+            }
+
+            BIOMEOLD = originalBiomeName; // Update BIOMEOLD to the valid biome
+         } else {
+            // Handle entering an invalid biome
+            if (ConfigurationMoD.displayerBiomeAgain) {
+               BIOMEOLD = ""; // Reset BIOMEOLD to allow redisplay when reentering a valid biome
             }
          }
       }
