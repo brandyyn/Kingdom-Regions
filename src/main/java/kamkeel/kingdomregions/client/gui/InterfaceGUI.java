@@ -113,49 +113,39 @@ public class InterfaceGUI extends GuiScreen {
       // Get the renamed biome name for display purposes
       String displayName = ConfigurationMoD.getRenamedBiome(originalBiomeName);
 
-      // Check if the biome has changed
-      if (!BIOMEOLD.equals(originalBiomeName)) {
-         boolean isValidBiome = true; // Assume valid unless blacklisted or fails whitelist
+      // Original logic for discovery and blacklist/whitelist handling
+      if (!KingdomPlayer.get(player).DiscoverdBiomeList.contains(originalBiomeName)) {
+         boolean tempb = true;
 
-         // Check blacklist
+         // Blacklist Check
          if (ConfigurationMoD.valuesB != null && ConfigurationMoD.valuesB.length > 0) {
             for (String blacklisted : ConfigurationMoD.valuesB) {
                if (blacklisted.equals(originalBiomeName)) {
-                  isValidBiome = false; // Mark invalid if blacklisted
+                  tempb = false;
                   break;
                }
             }
          }
 
-         // Check whitelist
+         // Whitelist Check (only if enabled)
          if (ConfigurationMoD.useWhitelist && ConfigurationMoD.valuesW != null && ConfigurationMoD.valuesW.length > 0) {
-            isValidBiome = false; // Default to false, allow only if matched in whitelist
+            tempb = false;
             for (String whitelisted : ConfigurationMoD.valuesW) {
                if (whitelisted.equals(originalBiomeName)) {
-                  isValidBiome = true;
+                  tempb = true;
                   break;
                }
             }
          }
 
-         // Handle entering a valid biome
-         if (isValidBiome) {
-            if (!KingdomPlayer.get(player).DiscoverdBiomeList.contains(originalBiomeName)) {
-               // Add to DiscoverdBiomeList and display for new biomes
-               KingdomPlayer.get(player).DiscoverdBiomeList.add(originalBiomeName);
-               DISPLAYSTRING.add(displayName);
-               PacketDispatcher.sendToServer(new sendTextpopRegions(displayName));
-            } else if (ConfigurationMoD.displayerBiomeAgain) {
-               // Redisplay for valid biomes if redisplay is enabled
-               DISPLAYSTRING.add(displayName);
-               PacketDispatcher.sendToServer(new sendTextpopRegions(displayName));
-            }
+         // Add to DISPLAYSTRING if valid
+         if (tempb && !BIOMEOLD.equals(originalBiomeName)) {
+            DISPLAYSTRING.add(displayName); // Use renamed biome name for display
+            BIOMEOLD = originalBiomeName;
 
-            BIOMEOLD = originalBiomeName; // Update BIOMEOLD to the valid biome
-         } else {
-            // Handle entering an invalid biome
-            if (ConfigurationMoD.displayerBiomeAgain) {
-               BIOMEOLD = ""; // Reset BIOMEOLD to allow redisplay when reentering a valid biome
+            // Notify server if redisplaying is disabled
+            if (!ConfigurationMoD.displayerBiomeAgain) {
+               PacketDispatcher.sendToServer(new sendTextpopRegions(displayName));
             }
          }
       }
