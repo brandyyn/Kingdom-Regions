@@ -40,7 +40,7 @@ public class InterfaceGUI extends GuiScreen {
 
 
    @SubscribeEvent(
-      priority = EventPriority.HIGHEST
+           priority = EventPriority.HIGHEST
    )
    public void onRenderExperienceBar(Chat event) {
       if (playtime > 0) {
@@ -107,40 +107,45 @@ public class InterfaceGUI extends GuiScreen {
    }
 
    private void updateBiome(EntityPlayer player) {
-      String str = player.worldObj.getBiomeGenForCoords((int) player.posX, (int) player.posZ).biomeName;
+      // Fetch the original biome name
+      String originalBiomeName = player.worldObj.getBiomeGenForCoords((int) player.posX, (int) player.posZ).biomeName;
 
-      // Check if the biome is already discovered
-      if (!KingdomPlayer.get(player).DiscoverdBiomeList.contains(str)) {
+      // Get the renamed biome name for display purposes
+      String displayName = ConfigurationMoD.getRenamedBiome(originalBiomeName);
+
+      // Original logic for discovery and blacklist/whitelist handling
+      if (!KingdomPlayer.get(player).DiscoverdBiomeList.contains(originalBiomeName)) {
          boolean tempb = true;
 
-         // Blacklist Check (skip if the blacklist is null or empty)
+         // Blacklist Check
          if (ConfigurationMoD.valuesB != null && ConfigurationMoD.valuesB.length > 0) {
-            for (int i = 0; i < ConfigurationMoD.valuesB.length; ++i) {
-               if (ConfigurationMoD.valuesB[i].equals(str)) {
+            for (String blacklisted : ConfigurationMoD.valuesB) {
+               if (blacklisted.equals(originalBiomeName)) {
                   tempb = false;
+                  break;
                }
             }
          }
 
-         // Whitelist Check (only if enabled and whitelist is not null or empty)
+         // Whitelist Check (only if enabled)
          if (ConfigurationMoD.useWhitelist && ConfigurationMoD.valuesW != null && ConfigurationMoD.valuesW.length > 0) {
-            tempb = false; // Default to false, allow only if matched in whitelist
-            for (int i = 0; i < ConfigurationMoD.valuesW.length; ++i) {
-               if (ConfigurationMoD.valuesW[i].equals(str)) {
+            tempb = false;
+            for (String whitelisted : ConfigurationMoD.valuesW) {
+               if (whitelisted.equals(originalBiomeName)) {
                   tempb = true;
                   break;
                }
             }
          }
 
-         // Add the biome to DISPLAYSTRING if valid and not recently displayed
-         if (tempb && !BIOMEOLD.equals(str)) {
-            DISPLAYSTRING.add(str);
-            BIOMEOLD = str;
+         // Add to DISPLAYSTRING if valid
+         if (tempb && !BIOMEOLD.equals(originalBiomeName)) {
+            DISPLAYSTRING.add(displayName); // Use renamed biome name for display
+            BIOMEOLD = originalBiomeName;
 
             // Notify server if redisplaying is disabled
             if (!ConfigurationMoD.displayerBiomeAgain) {
-               PacketDispatcher.sendToServer(new sendTextpopRegions(str));
+               PacketDispatcher.sendToServer(new sendTextpopRegions(displayName));
             }
          }
       }

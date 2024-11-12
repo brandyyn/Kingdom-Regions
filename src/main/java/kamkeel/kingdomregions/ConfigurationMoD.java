@@ -7,6 +7,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.config.Configuration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConfigurationMoD {
    public static int textX = 0;
@@ -29,6 +32,9 @@ public class ConfigurationMoD {
    private static int Size;
    private static int[] ValueList;
    static final String CATEGORY_2 = "general.CustomCords (sended by Server, do NOT Edit that)";
+
+   // Map to store biome renaming mappings
+   private static final Map<String, String> biomeNameMappings = new HashMap<>();
 
    public static void loadConfig() {
       FMLCommonHandler.instance().bus().register(KingdomRegions.instance);
@@ -55,10 +61,32 @@ public class ConfigurationMoD {
       displayerBiomeAgain = KingdomRegions.config.getBoolean("displayerBiomeAgain", CATEGORY_1, false, "Enable this to let the Biome display again and again.");
       TownNames = KingdomRegions.config.getStringList("TownNames", "List", new String[]{"Demonsummit", "Fallhold", "Ebonholde", "Lakeville", "Nevermoor", "Goldcrest", "Highbury", "Sleetdale", "Brittletide", "Sleekborn", "Swiftspell", "Silkbay", "Doghall", "Glimmerharbor", "Muddrift", "Ghostgrasp", "Roseharbor", "Sleetstar", "Deadwallow", "Shimmervault", "Mageshore", "Mistville", "Snowgrasp", "Feardenn", "Sleekborn", "Mistcoast", "Baygulch", "Oxkeep", "Stagcrest", "Whitspire", "Sunfalls", "Mutehaven", "Northburgh", "Newgarde", "Quickhold", "Stillfall", "Whitcross", "Silveracre", "Whiteview", "Grimefair", "Nightburgh", "Kilgrove", "Highfield", "Lakeharbor", "Coldhallow", "Swampshield", "Deepstrand", "Whiteshire", "Whitereach", "Rockhand", "Deadstorm", "Sleetholde", "Quickwind", "Nightfield", "Scorchwood", "Rosehaven", "Southbay"}, "Standard Names for Villages.");
       Size = KingdomRegions.config.get(CATEGORY_2, "CurrentPoints", 0).getInt();
+      // Add biome renaming mappings
+      String[] biomeRenames = KingdomRegions.config.get("biome_renames", "RenameMappings", new String[] {
+              "River=CustomRiver",
+              "Plains=BeautifulPlains"
+      }).getStringList();
+
+      for (String mapping : biomeRenames) {
+         String[] parts = mapping.split("=");
+         if (parts.length == 2) {
+            biomeNameMappings.put(parts[0].trim(), parts[1].trim());
+         }
+      }
+
+      // Save the configuration file if changes were made
       if (KingdomRegions.config.hasChanged()) {
          KingdomRegions.config.save();
       }
+   }
 
+   /**
+    * Get the renamed biome name if a mapping exists.
+    * @param originalBiomeName The original biome name.
+    * @return The renamed biome name or the original name if no mapping exists.
+    */
+   public static String getRenamedBiome(String originalBiomeName) {
+      return biomeNameMappings.getOrDefault(originalBiomeName, originalBiomeName);
    }
 
    public static void addPoint(int[] intlist, String string) {
